@@ -6,6 +6,7 @@ try{
 
 const githubToken = core.getInput('repo-token', {required: true})
 const octokit = github.getOctokit(githubToken);
+console.log(`octokit: ${octokit}`, typeof(octokit))
 
 const query =  `query {
                     viewer {

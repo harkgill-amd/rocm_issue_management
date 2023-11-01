@@ -3,7 +3,7 @@ description: 'Extract information from opened issues and populate GitHub project
 inputs:
     repo-token:
         description: 'The GITHUB_TOKEN needed to manage issue'
-        default: ${{ secrets.GITHUB_TOKEN }}
+        default: ${{ github.token }}
 
 runs:   
     using: 'node16'
