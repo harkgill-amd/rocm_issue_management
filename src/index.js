@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-// const { runAction } = require('./action');
+
 
 try{
 
@@ -12,7 +12,7 @@ const query =  `query {
                         login
                     }
                 }`
-                
+
 const user = await octokit.graphql(query)
 const contextPayload = github.context.payload;
 
