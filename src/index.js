@@ -14,7 +14,7 @@ const octokit = github.getOctokit(githubToken);
 const contextPayload = github.context.payload;
 
 const val = runAction(octokit, contextPayload)
-core.setOutput(`Issue nodeId = ${val}`)
+core.setOutput(`${val}`)
 }catch (error) {
     core.setFailed(error.message);
 }
