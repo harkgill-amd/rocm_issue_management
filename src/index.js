@@ -14,7 +14,7 @@ const octokit = github.getOctokit(githubToken);
 // this will contain information related to the issue that was just opened
 const contextPayload = github.context.payload;
 
-const val = await runAction(octokit, contextPayload, organization)
+const val = await runAction(octokit, contextPayload)
 core.setOutput(`Issue nodeId = ${val}`)
 }catch (error) {
     core.setFailed(error.message);

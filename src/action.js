@@ -4,9 +4,9 @@
  * @param {string} parameters.organization
  * @param {number} parameters.projectNum
  */
-const runAction = async (octokit, contextPayload, organization) => {
+const runAction = async (octokit, contextPayload) => {
     
-    issueNumber = context.issue?.number
+    issueNumber = contextPayload.issue?.number
 
     if (!issueNumber) {
         throw new Error(`Couldn't find issue info in current context`);
@@ -14,8 +14,8 @@ const runAction = async (octokit, contextPayload, organization) => {
 
     
     const issueResponse = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
-        owner: organization,
-        repo: 'tempfortesting',
+        owner: contextPayload.repository_owner,
+        repo: contextPayload.repository,
         issue_number: issueNumber,
         headers: {
         'X-GitHub-Api-Version': '2022-11-28'

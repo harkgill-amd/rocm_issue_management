@@ -4,10 +4,7 @@ inputs:
     repo-token:
         description: 'The GITHUB_TOKEN needed to manage issue'
         default: ${{ github.token }}
-    github-organization:
-        description: 'The github organization that owns the project'
-        required: true
-
+        
 runs:   
     using: 'node16'
     main: 'src/index.js'
