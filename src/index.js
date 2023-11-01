@@ -6,7 +6,6 @@ try{
 
     // these variables are set using the inputs defined in action.yml
     const githubToken = core.getInput('repo-token', {required: true})
-    const organization = core.getInput('github-organization', {required: true})
 
 // the object which will interact with GitHub APIs
 const octokit = github.getOctokit(githubToken);

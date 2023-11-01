@@ -1,8 +1,6 @@
 /**
  * @param {Object} octokit
  * @param {Object} context
- * @param {string} parameters.organization
- * @param {number} parameters.projectNum
  */
 const runAction = async (octokit, contextPayload) => {
     
