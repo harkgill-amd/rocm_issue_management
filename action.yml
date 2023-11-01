@@ -7,9 +7,7 @@ inputs:
     github-organization:
         description: 'The github organization that owns the project'
         required: true
-    github-project-number:
-        description: 'The github project where the issue will be recorded'
-        required: true
+
 runs:   
     using: 'node16'
     main: 'src/index.js'
