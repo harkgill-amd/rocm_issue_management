@@ -13,7 +13,7 @@ const query =  `query {
                     }
                 }`
 
-const user = await octokit.graphql(query)
+const user = octokit.graphql(query)
 const contextPayload = github.context.payload;
 
 console.log(JSON.stringify(user))
