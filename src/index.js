@@ -4,24 +4,18 @@ const github = require('@actions/github');
 
 try{
 
-    // these variables are set using the inputs defined in action.yml
 const githubToken = core.getInput('repo-token', {required: true})
-
-// the object which will interact with GitHub APIs
 const octokit = github.getOctokit(githubToken);
 
-// this will contain information related to the issue that was just opened
+const query =  `query {
+                    viewer {
+                        login
+                    }
+                }`
+                
+const user = await octokit.graphql(query)
 const contextPayload = github.context.payload;
-let user
-try{
-    user = await octokit.request('GET /user', {
-        headers: {
-          'X-GitHub-Api-Version': '2022-11-28'
-        }
-      })
-}catch(error){
-    console.log(error)
-}
+
 console.log(JSON.stringify(user))
 console.log(JSON.stringify(contextPayload))
 
