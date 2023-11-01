@@ -6,7 +6,6 @@ try{
 
 const githubToken = core.getInput('repo-token', {required: true})
 const octokit = github.getOctokit(githubToken);
-console.log(`octokit: ${octokit}`, typeof(octokit))
 
 const query =  `query {
                     viewer {
@@ -14,7 +13,7 @@ const query =  `query {
                     }
                 }`
 
-const user = octokit.graphql(query)
+const user = await octokit.graphql(query)
 const contextPayload = github.context.payload;
 
 console.log(JSON.stringify(user))
