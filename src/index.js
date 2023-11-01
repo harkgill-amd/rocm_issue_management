@@ -9,7 +9,7 @@ try{
 
 // the object which will interact with GitHub APIs
 const octokit = github.getOctokit(githubToken);
-
+console.log(githubToken)
 // this will contain information related to the issue that was just opened
 const contextPayload = github.context.payload;
 
