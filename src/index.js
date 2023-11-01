@@ -13,8 +13,8 @@ const octokit = github.getOctokit(githubToken);
 // this will contain information related to the issue that was just opened
 const contextPayload = github.context.payload;
 
-console.log(`Octokit: ${octokit}
-        context:${contextPayload}`)
+console.log(JSON.stringify(octokit))
+console.log(JSON.stringify(contextPayload))
 
 }catch (error) {
     core.setFailed(error.message);
