@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { runAction } = require('./action');
+// const { runAction } = require('./action');
 
 try{
 
@@ -9,12 +9,13 @@ try{
 
 // the object which will interact with GitHub APIs
 const octokit = github.getOctokit(githubToken);
-console.log(githubToken)
+
 // this will contain information related to the issue that was just opened
 const contextPayload = github.context.payload;
 
-const val = runAction(octokit, contextPayload)
-core.setOutput(`${val}`)
+console.log(`Octokit: ${octokit}
+        context:${contextPayload}`)
+
 }catch (error) {
     core.setFailed(error.message);
 }

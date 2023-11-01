@@ -13,8 +13,7 @@ const runAction = async (octokit, contextPayload) => {
     }
     
     const nodeId = issueNumber
-    return {nodeId: nodeId, owner: contextPayload.repository_owner,
-        repo: contextPayload.repository}
+    return `issueNumber:${issueNumber}, `
 }
 
 module.exports = {
