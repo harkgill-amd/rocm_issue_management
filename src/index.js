@@ -9,12 +9,13 @@ const thingy  = async () => {
         const octokit = github.getOctokit(githubToken);
         
         const query =  `
-        query {
-            viewer {
-              login
-            }
-          }
-        
+        query GetEachRowInProjectTable {
+            organization(login: "temporarysupersecretorganization"){
+             projectV2(number: 1) {
+                 id
+               }
+           }
+         }
         `
         
         const user = await octokit.graphql(query)
