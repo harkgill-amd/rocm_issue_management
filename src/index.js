@@ -22,7 +22,7 @@ const thingy  = async () => {
         const contextPayload = github.context.payload;
         
         console.log(JSON.stringify(user))
-        console.log(JSON.stringify(contextPayload))
+        console.log(JSON.stringify(contextPayload.issue))
         
         }catch (error) {
             core.setFailed(error.message);
