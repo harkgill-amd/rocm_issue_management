@@ -10,7 +10,7 @@ const osDelim = "### Operating System"
         const orgName = "temporarysupersecretorganization"
         const repo = "tempfortesting"
 
-const extractInfo = async (octokit, body) => {
+const extractInfo = async (octokit, body, issueNum) => {
     let osIndex = body.indexOf(osDelim) + osDelim.length + 2
     let cpuIndex = body.indexOf(cpuDelim) - 2
     
@@ -50,8 +50,10 @@ const thingy  = async () => {
         const githubToken = core.getInput('repo-token', {required: true})
         const octokit = github.getOctokit(githubToken);
         const contextPayload = github.context.payload;
-
+        const body = contextPayload.issue.body
+        const num = contextPayload.issue.number
         console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
+        extractInfo(octokit, body, num)
         // const body = contextPayload.issue.issue.body
         // extractInfo(octokit, body)
 
