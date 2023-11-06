@@ -1,7 +1,6 @@
 {
   "name": "rocm_issue_management",
   "version": "1.0.0",
-  "type": "module",
   "description": "A github action that manages opened issues in ROCm repositories",
   "main": "src/index.js",
   "scripts": {
