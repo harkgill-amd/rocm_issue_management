@@ -1,9 +1,16 @@
 name: 'ROCm Issue Manager'
 description: 'Extract information from opened issues and populate GitHub project dashboard'
 inputs:
-    repo-token:
+    authentication-token:
         description: 'The GITHUB_TOKEN needed to manage issue'
         default: ${{ github.token }}
+        required: true
+    github-organization: 
+        description: 'The organization that owns github-repo.'
+        required: true
+    github-repo:
+        description: 'The repository for which to track issues'
+        required: true
 
 runs:   
     using: 'node16'

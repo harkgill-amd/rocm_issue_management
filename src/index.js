@@ -7,8 +7,8 @@ const osDelim = "### Operating System"
         const rocmVersionDelim = "### ROCm Version"
         const rocmComponentDelim = "### ROCm Component"
 
-        const orgName = "temporarysupersecretorganization"
-        const repo = "tempfortesting"
+const orgName = core.getInput('github-organization', {required: true})
+const repo = core.getInput('github-repo', {required: true})
 
 const extractInfo = async (octokit, body, issueNum) => {
     let osIndex = body.indexOf(osDelim) + osDelim.length + 2
@@ -47,32 +47,13 @@ const thingy  = async () => {
 
     try{
 
-        const githubToken = core.getInput('repo-token', {required: true})
+        const githubToken = core.getInput('authentication-token', {required: true})
         const octokit = github.getOctokit(githubToken);
         const contextPayload = github.context.payload;
         const body = contextPayload.issue.body
         const num = contextPayload.issue.number
         console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
         extractInfo(octokit, body, num)
-        // const body = contextPayload.issue.issue.body
-        // extractInfo(octokit, body)
-
-            // const query =  `
-            // query GetEachRowInProjectTable {
-            //     organization(login: "temporarysupersecretorganization"){
-            //      projectV2(number: 1) {
-            //          id
-            //        }
-            //    }
-            //  }
-            // `
-            
-            // const user = await octokit.graphql(query)
-            // const contextPayload = github.context.payload;
-            
-            // console.log(JSON.stringify(user))
-            // console.log(JSON.stringify(contextPayload.issue))
-        
         }catch (error) {
             core.setFailed(error.message);
         }
