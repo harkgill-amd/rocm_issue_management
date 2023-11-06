@@ -51,8 +51,9 @@ const thingy  = async () => {
         const octokit = github.getOctokit(githubToken);
         const contextPayload = github.context.payload;
 
-        const body = contextPayload.issue.issue.body
-        extractInfo(octokit, body)
+        console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
+        // const body = contextPayload.issue.issue.body
+        // extractInfo(octokit, body)
 
             // const query =  `
             // query GetEachRowInProjectTable {
