@@ -10,7 +10,7 @@ const rocmComponentDelim = "### ROCm Component"
 const orgName = core.getInput('github-organization', {required: true})
 const repo = core.getInput('github-repo', {required: true})
 
-const extractInfo = async (octokit, body, issueNum) => {
+async function extractInfo(octokit, body, issueNum){
     let osIndex = body.indexOf(osDelim) + osDelim.length + 2
     let cpuIndex = body.indexOf(cpuDelim) - 2
     
@@ -95,7 +95,7 @@ const queryToGetLatestOnDash =  `{
 
 
 
-const run  = async () => { 
+async function run() { 
 
     try{
 
