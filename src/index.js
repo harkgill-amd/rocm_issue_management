@@ -2,10 +2,10 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 const osDelim = "### Operating System"
-        const cpuDelim = "### CPU"
-        const gpuDelim = "### GPU"
-        const rocmVersionDelim = "### ROCm Version"
-        const rocmComponentDelim = "### ROCm Component"
+const cpuDelim = "### CPU"
+const gpuDelim = "### GPU"
+const rocmVersionDelim = "### ROCm Version"
+const rocmComponentDelim = "### ROCm Component"
 
 const orgName = core.getInput('github-organization', {required: true})
 const repo = core.getInput('github-repo', {required: true})
@@ -22,7 +22,8 @@ const extractInfo = async (octokit, body, issueNum) => {
     const cpu = body.slice(cpuIndex, gpuIndex)
 
     gpuIndex = body.indexOf(gpuDelim) + gpuDelim.length + 2
-    let rocmVersionIndex = body.indexOf(rocmVersionDelim) - 2
+    let rocmVersionIndex = body.indexOf("### Other") - 2
+
 
     let gpu = body.slice(gpuIndex, rocmVersionIndex)
 
@@ -38,12 +39,63 @@ const extractInfo = async (octokit, body, issueNum) => {
     })
     let labels = gpu.concat(rocmVersion)
     await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
-    console.table([os, cpu, gpu, rocmVersion])
+    return [gpu, rocmVersion]
 
+}
+
+
+const queryToGetLatestOnDash =  `{
+    organization(login: "temporarysupersecretorganization") {
+      projectV2(number: 1) {
+        project_id: id
+        gpu_column_id:field(name:"GPUs"){
+          ... on ProjectV2Field{
+            id
+          }
+        }
+        rocm_version_column_id:field(name:"ROCmVersions"){
+          ... on ProjectV2Field{
+            id
+          }
+        }
+        items(last: 1){
+          last_item:nodes {
+            __typename
+            latest_row_id: id
+            fieldValueByName(name: "GPUs"){
+              ... on ProjectV2ItemFieldTextValue{
+                id
+                text
+              }
+            }
+          }
+        }
+      }
     }
+  }`
 
 
-const thingy  = async () => { 
+  function constructColumnMutationQuery(columnToChange, rowToChange, projectId, text){
+    const mutationQuery = `mutation{
+      updateProjectV2ItemFieldValue(input: {
+        fieldId: "${columnToChange}",
+        itemId: "${rowToChange}",
+        projectId: "${projectId}",
+        value: {text: "${text}"}
+        
+      }){
+        clientMutationId
+      }
+    }`
+    
+    return mutationQuery
+  }
+  
+
+
+
+
+const run  = async () => { 
 
     try{
 
@@ -53,10 +105,26 @@ const thingy  = async () => {
         const body = contextPayload.issue.body
         const num = contextPayload.issue.number
         console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
-        extractInfo(octokit, body, num)
+        let [gpu, rocmVersions] = extractInfo(octokit, body, num)
+        gpu = String(gpu)
+        rocmVersions = String(rocmVersions)
+        
+        let graphQL = await octokit.graphql(queryToGetLatestOnDash)
+        const project_id = graphQL.organization.projectV2.project_id
+        const gpu_column_id = graphQL.organization.projectV2.gpu_column_id.id
+        const rocm_version_column_id = graphQL.organization.projectV2.rocm_version_column_id.id
+        const latest_row_id = graphQL.organization.projectV2.items.last_item[0].latest_row_id
+
+        let response 
+        response = await octokit.graphql(constructColumnMutationQuery(gpu_column_id, latest_row_id, project_id, gpu))
+        console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
+
+        response = await octokit.graphql(constructColumnMutationQuery(rocm_version_column_id, latest_row_id, project_id, rocmVersions))
+        console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
+
         }catch (error) {
             core.setFailed(error.message);
         }
 
 }
-thingy()
+run()
