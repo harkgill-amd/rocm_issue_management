@@ -105,7 +105,7 @@ const run  = async () => {
         const body = contextPayload.issue.body
         const num = contextPayload.issue.number
         console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
-        let [gpu, rocmVersions] = extractInfo(octokit, body, num)
+        let [gpu, rocmVersions] = await extractInfo(octokit, body, num)
         gpu = String(gpu)
         rocmVersions = String(rocmVersions)
         
