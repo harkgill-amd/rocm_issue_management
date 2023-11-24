@@ -1,12 +1,12 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-
+const axios = require('axios').default;
 const osDelim = "### Operating System"
 const cpuDelim = "### CPU"
 const gpuDelim = "### GPU"
 const rocmVersionDelim = "### ROCm Version"
 const rocmComponentDelim = "### ROCm Component"
-
+const SWDEVURL = "https://dalwebapiuat.amd.com/DALWebApiLinuxJDC/CreateSwdevTicket"
 const orgName = core.getInput('github-organization', {required: true})
 const repo = core.getInput('github-repo', {required: true})
 
@@ -91,8 +91,27 @@ const queryToGetLatestOnDash =  `{
     return mutationQuery
   }
   
+  function createSWDEVTicketBody(summary, description){
 
+    return {
+      "FieldValues": {
+        "summary": `${summary}`,
+        "description": `${description}`,
+        "issuetype": "Defect",
+        "Program": "MI-100",
+        "TriageCategory": "Radeon Open Compute",
+        "TriageAssignment": "Triage - ML SDK",
+        "labels": "github_issue",
+        "Severity": "None",
+        "comments": "testing",
+        "assignee": "",
+        "watchers": "abhimeda"
+    }
+    }
+  
 
+  }
+  
 
 
 async function run() { 
@@ -104,6 +123,7 @@ async function run() {
         const contextPayload = github.context.payload;
         const body = contextPayload.issue.body
         const num = contextPayload.issue.number
+        const title = contextPayload.issue.title
         console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
         let [gpu, rocmVersions] = await extractInfo(octokit, body, num)
         gpu = String(gpu)
@@ -121,6 +141,22 @@ async function run() {
 
         response = await octokit.graphql(constructColumnMutationQuery(rocm_version_column_id, latest_row_id, project_id, rocmVersions))
         console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
+
+        const username = "z1_jira_account"
+        const password = "dy75!cbmkt65ft"
+
+        const swdevBody = createSWDEVTicketBody(title, body)
+
+        const jiraResponse = await axios.post(SWDEVURL, {swdevBody}, {
+          auth:{
+            username:username,
+            password:password
+          }
+        })
+        console.log(jiraResponse)
+
+
+
 
         }catch (error) {
             core.setFailed(error.message);
