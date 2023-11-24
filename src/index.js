@@ -142,18 +142,18 @@ async function run() {
         response = await octokit.graphql(constructColumnMutationQuery(rocm_version_column_id, latest_row_id, project_id, rocmVersions))
         console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
 
-        const username = "z1_jira_account"
-        const password = "dy75!cbmkt65ft"
+        // const username = "z1_jira_account"
+        // const password = "dy75!cbmkt65ft"
 
-        const swdevBody = createSWDEVTicketBody(title, body)
+        // const swdevBody = createSWDEVTicketBody(title, body)
 
-        const jiraResponse = await axios.post(SWDEVURL, {swdevBody}, {
-          auth:{
-            username:username,
-            password:password
-          }
-        })
-        console.log(jiraResponse)
+        // const jiraResponse = await axios.post(SWDEVURL, {swdevBody}, {
+        //   auth:{
+        //     username:username,
+        //     password:password
+        //   }
+        // })
+        // console.log(jiraResponse)
 
 
 
