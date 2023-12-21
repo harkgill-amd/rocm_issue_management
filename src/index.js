@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const https = require('https');
 const github = require('@actions/github');
 const axios = require('axios').default;
 const osDelim = "### Operating System"
@@ -148,8 +149,12 @@ async function run() {
         const password = "dy75!cbmkt65ft"
 
         const swdevBody = createSWDEVTicketBody(title, body)
+        
+        const agent = new https.Agent({  
+          rejectUnauthorized: false
+        });
 
-        const jiraResponse = await axios.post(SWDEVURL, {swdevBody}, {
+        const jiraResponse = await axios.post(SWDEVURL, {swdevBody, agent}, {
           auth:{
             username:username,
             password:password
