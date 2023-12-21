@@ -151,7 +151,7 @@ async function run() {
         const password = "dy75!cbmkt65ft"
 
         const swdevBody = createSWDEVTicketBody(title, body)
-        const cert = fs.readFileSync(path.resolve(__dirname, "root.pem"))
+        const cert = [path.resolve(__dirname, "root.pem"), path.resolve(__dirname, "issue.pem")]
         console.log(cert)
         const httpsAgent   = new https.Agent({ ca: cert });
         const jiraResponse = await axios.post(SWDEVURL, {swdevBody, httpsAgent}, {
