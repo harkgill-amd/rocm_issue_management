@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const https = require('https');
 const fs = require('fs');
+const path = require("path");
 const github = require('@actions/github');
 const axios = require('axios').default;
 const osDelim = "### Operating System"
@@ -150,7 +151,7 @@ async function run() {
         const password = "dy75!cbmkt65ft"
 
         const swdevBody = createSWDEVTicketBody(title, body)
-        const httpsAgent   = new https.Agent({ ca: fs.readFileSync("combined_issuing_and_root_certificates.pem") });
+        const httpsAgent   = new https.Agent({ ca: fs.readFileSync(path.resolve(__dirname, "combined_issuing_and_root_certificates.pem")) });
 
         const jiraResponse = await axios.post(SWDEVURL, {swdevBody, httpsAgent}, {
           auth:{
