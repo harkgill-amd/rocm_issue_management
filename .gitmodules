@@ -1,0 +1,3 @@
+[submodule "amd_trusted_cas"]
+	path = amd_trusted_cas
+	url = git@github.amd.com:CSE-FirstPartner-Mantis-NPI/amd_trusted_cas.git
