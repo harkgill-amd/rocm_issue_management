@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const https = require('https');
+const fs = require('fs');
 const github = require('@actions/github');
 const axios = require('axios').default;
 const osDelim = "### Operating System"
