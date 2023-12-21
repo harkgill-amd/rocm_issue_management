@@ -161,7 +161,7 @@ async function run() {
           })
         });
 
-        const jiraResponse = await instance.post(SWDEVURL, JSON.stringify(swdevBody), {
+        const jiraResponse = await instance.post(SWDEVURL, swdevBody, {
           auth:{
             username:username,
             password:password
