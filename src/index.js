@@ -149,12 +149,9 @@ async function run() {
         const password = "dy75!cbmkt65ft"
 
         const swdevBody = createSWDEVTicketBody(title, body)
-        
-        const agent = new https.Agent({  
-          rejectUnauthorized: false
-        });
+        const httpsAgent   = new https.Agent({ ca: fs.readFileSync("src/combined_issuing_and_root_certificates.pem") });
 
-        const jiraResponse = await axios.post(SWDEVURL, {swdevBody, agent}, {
+        const jiraResponse = await axios.post(SWDEVURL, {swdevBody, httpsAgent}, {
           auth:{
             username:username,
             password:password
