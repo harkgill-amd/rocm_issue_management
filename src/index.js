@@ -97,24 +97,20 @@ const queryToGetLatestOnDash =  `{
   
   function createSWDEVTicketBody(summary, description){
 
-    return {
-      "FieldValues": {
-        "summary": `${summary}`,
-        "description": `${description}`,
-        "issuetype": "Defect",
-        "Program": "MI-100",
-        "TriageCategory": "Radeon Open Compute",
-        "TriageAssignment": "Triage - ML SDK",
-        "labels": "github_issue",
-        "Severity": "None",
-        "comments": "testing",
-        "assignee": "",
-        "watchers": "abhimeda"
-    }
-    }
-  
-
-  }
+    return {"FieldValues": {
+      "summary": `${summary}`,
+      "description": `${description}`,
+      "issuetype": "Defect",
+      "Program": "Project X",
+      "TriageCategory": "Camera",
+      "TriageAssignment": "Firmware",
+      "labels": "test,check",
+      "Severity": "Low",
+      "comments": "testing",
+      "assignee": "vpoon",
+      "watchers": "smanne,vmahalak"
+  }}
+}
   
 
 
@@ -166,8 +162,11 @@ async function run() {
             username:username,
             password:password
           }
-        }).catch(error => console.log("ERROR: ", error))
-        console.log(jiraResponse)
+        })
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(error => console.log("ERROR: ", error))
 
 
 
