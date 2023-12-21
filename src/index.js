@@ -121,7 +121,7 @@ async function run() {
         const githubToken = core.getInput('authentication-token', {required: true})
         const octokit = github.getOctokit(githubToken);
         // const contextPayload = github.context.payload;
-        // const body = contextPayload.issue.body
+        const body = "SOME BODY HERE"
         // const num = contextPayload.issue.number
         const title = "TESTING-AMD-GITHUB-RUNNER"
         // console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
