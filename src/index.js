@@ -49,8 +49,8 @@ async function extractInfo(octokit, body, issueNum){
 
 
 const queryToGetLatestOnDash =  `{
-    organization(login: "temporarysupersecretorganization") {
-      projectV2(number: 1) {
+    organization(login: "RadeonOpenCompute") {
+      projectV2(number: 11) {
         project_id: id
         gpu_column_id:field(name:"GPUs"){
           ... on ProjectV2Field{
@@ -124,27 +124,27 @@ async function run() {
 
         const githubToken = core.getInput('authentication-token', {required: true})
         const octokit = github.getOctokit(githubToken);
-        // const contextPayload = github.context.payload;
-        const body = "SOME BODY HERE"
-        // const num = contextPayload.issue.number
+        const contextPayload = github.context.payload;
+        const body = contextPayload.issue.body
+        const num = contextPayload.issue.number
         const title = "TESTING-AMD-GITHUB-RUNNER"
         // console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
-        // let [gpu, rocmVersions] = await extractInfo(octokit, body, num)
-        // gpu = String(gpu)
-        // rocmVersions = String(rocmVersions)
+        let [gpu, rocmVersions] = await extractInfo(octokit, body, num)
+        gpu = String(gpu)
+        rocmVersions = String(rocmVersions)
         
-        // let graphQL = await octokit.graphql(queryToGetLatestOnDash)
-        // const project_id = graphQL.organization.projectV2.project_id
-        // const gpu_column_id = graphQL.organization.projectV2.gpu_column_id.id
-        // const rocm_version_column_id = graphQL.organization.projectV2.rocm_version_column_id.id
-        // const latest_row_id = graphQL.organization.projectV2.items.last_item[0].latest_row_id
+        let graphQL = await octokit.graphql(queryToGetLatestOnDash)
+        const project_id = graphQL.organization.projectV2.project_id
+        const gpu_column_id = graphQL.organization.projectV2.gpu_column_id.id
+        const rocm_version_column_id = graphQL.organization.projectV2.rocm_version_column_id.id
+        const latest_row_id = graphQL.organization.projectV2.items.last_item[0].latest_row_id
 
-        // let response 
-        // response = await octokit.graphql(constructColumnMutationQuery(gpu_column_id, latest_row_id, project_id, gpu))
-        // console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
+        let response 
+        response = await octokit.graphql(constructColumnMutationQuery(gpu_column_id, latest_row_id, project_id, gpu))
+        console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
 
-        // response = await octokit.graphql(constructColumnMutationQuery(rocm_version_column_id, latest_row_id, project_id, rocmVersions))
-        // console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
+        response = await octokit.graphql(constructColumnMutationQuery(rocm_version_column_id, latest_row_id, project_id, rocmVersions))
+        console.log("Updating rocmVersions column: ",JSON.stringify(response, null, 4))
 
         // const username = "z1_jira_account"
         // const password = "dy75!cbmkt65ft"
@@ -152,8 +152,6 @@ async function run() {
         const password = "dy75!cbmkt65ft"
 
         const swdevBody = createSWDEVTicketBody(title, body)
-        const cert = [path.resolve(__dirname, "root.pem"), path.resolve(__dirname, "issue.pem")]
-        console.log(cert)
         
         const instance = axios.create({
           httpsAgent: new https.Agent({  
