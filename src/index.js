@@ -153,10 +153,14 @@ async function run() {
         const swdevBody = createSWDEVTicketBody(title, body)
         const cert = [path.resolve(__dirname, "root.pem"), path.resolve(__dirname, "issue.pem")]
         console.log(cert)
-        const agent = new https.Agent({  
-          rejectUnauthorized: false
+        
+        const instance = axios.create({
+          httpsAgent: new https.Agent({  
+            rejectUnauthorized: false
+          })
         });
-        const jiraResponse = await axios.post(SWDEVURL, {swdevBody, httpsAgent: agent}, {
+
+        const jiraResponse = await instance.post(SWDEVURL, {swdevBody}, {
           auth:{
             username:username,
             password:password
