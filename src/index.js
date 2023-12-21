@@ -3,6 +3,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require("path");
 const github = require('@actions/github');
+const { error } = require('console');
 const axios = require('axios').default;
 const osDelim = "### Operating System"
 const cpuDelim = "### CPU"
@@ -165,7 +166,7 @@ async function run() {
             username:username,
             password:password
           }
-        })
+        }).catch(error => console.log("ERROR: ", error))
         console.log(jiraResponse)
 
 
