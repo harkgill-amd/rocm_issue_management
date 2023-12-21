@@ -142,6 +142,8 @@ async function run() {
         // response = await octokit.graphql(constructColumnMutationQuery(rocm_version_column_id, latest_row_id, project_id, rocmVersions))
         // console.log("Updating GPU columns: ",JSON.stringify(response, null, 4))
 
+        // const username = "z1_jira_account"
+        // const password = "dy75!cbmkt65ft"
         const username = String.raw`amd\z1_jira_account`
         const password = "dy75!cbmkt65ft"
 
