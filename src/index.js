@@ -135,6 +135,7 @@ async function run() {
         const title = "TESTING-AMD-GITHUB-RUNNER"
         // console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
         let [gpu, rocmVersions] = await extractInfo(octokit, body, num)
+        console.log(gpu, rocmVersions)
         gpu = String(gpu)
         rocmVersions = String(rocmVersions)
         
