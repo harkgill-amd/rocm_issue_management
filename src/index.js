@@ -43,7 +43,12 @@ async function extractInfo(octokit, body, issueNum){
     })
     let labels = gpu.concat(rocmVersion)
     console.log("labels", labels)
-    await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
+    try{
+      await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
+    }
+    catch(e){
+      console.log(e)
+    }
     return [gpu, rocmVersion]
 
 }
