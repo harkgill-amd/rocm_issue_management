@@ -126,6 +126,7 @@ async function run() {
 
         const githubToken = core.getInput('authentication-token', {required: true})
         const octokit = github.getOctokit(githubToken);
+        console.log("Octokit", octokit)
         const contextPayload = github.context.payload;
 
         
