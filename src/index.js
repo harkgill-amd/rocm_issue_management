@@ -42,8 +42,8 @@ async function extractInfo(octokit, body, issueNum){
         return version.trim()
     })
     let labels = gpu.concat(rocmVersion)
+    console.log("labels", labels)
     await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
-    console.log([gpu, rocmVersion])
     return [gpu, rocmVersion]
 
 }
@@ -116,6 +116,7 @@ const queryToGetLatestOnDash =  `{
 
 
 async function run() { 
+    console.log("running")
 
     try{
 
