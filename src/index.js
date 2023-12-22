@@ -46,7 +46,7 @@ async function extractInfo(octokit, body, issueNum){
       await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
     }
     catch(e){
-      console.log(e)
+      console.log("Error here:", e)
     }
     return [gpu, rocmVersion]
 
