@@ -43,6 +43,7 @@ async function extractInfo(octokit, body, issueNum){
     })
     let labels = gpu.concat(rocmVersion)
     await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
+    console.log([gpu, rocmVersion])
     return [gpu, rocmVersion]
 
 }
@@ -122,8 +123,7 @@ async function run() {
         const octokit = github.getOctokit(githubToken);
         const contextPayload = github.context.payload;
 
-        console.log(contextPayload)
-        console.log(githubToken)
+        
         const body = contextPayload.issue.body
         const num = contextPayload.issue.number
         const title = "TESTING-AMD-GITHUB-RUNNER"
