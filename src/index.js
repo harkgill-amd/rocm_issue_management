@@ -106,14 +106,14 @@ const queryToGetLatestOnDash =  `{
       "summary": `${summary}`,
       "description": `${description}`,
       "issuetype": "Defect",
-      "Program": "Project X",
-      "TriageCategory": "Camera",
-      "TriageAssignment": "Firmware",
+      "Program": "ROCm on Radeon",
+      "TriageCategory": "Radeon Open Compute",
+      "TriageAssignment": "Triage - ML SDK",
       "labels": "test,check",
       "Severity": "Low",
       "comments": "testing",
-      "assignee": "vpoon",
-      "watchers": "smanne,vmahalak"
+      "assignee": "abhimeda",
+      "watchers": "abhimeda"
   }}
 }
   
