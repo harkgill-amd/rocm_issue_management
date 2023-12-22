@@ -13,7 +13,7 @@ const rocmComponentDelim = "### ROCm Component"
 const SWDEVURL = "https://dalwebapiuat.amd.com/DALWebApiLinuxJDC/CreateSwdevTicket"
 const orgName = core.getInput('github-organization', {required: true})
 const repo = core.getInput('github-repo', {required: true})
-
+console.log(orgName, repo)
 async function extractInfo(octokit, body, issueNum){
     let osIndex = body.indexOf(osDelim) + osDelim.length + 2
     let cpuIndex = body.indexOf(cpuDelim) - 2
