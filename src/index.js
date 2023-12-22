@@ -42,7 +42,6 @@ async function extractInfo(octokit, body, issueNum){
         return version.trim()
     })
     let labels = gpu.concat(rocmVersion)
-    console.log("labels", labels)
     try{
       await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
     }
