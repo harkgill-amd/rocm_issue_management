@@ -11,6 +11,7 @@ const gpuDelim = "### GPU"
 const rocmVersionDelim = "### ROCm Version"
 const rocmComponentDelim = "### ROCm Component"
 const SWDEVURL = "https://dalwebapiuat.amd.com/DALWebApiLinuxJDC/CreateSwdevTicket"
+let jiraLink = "https://ontrack-internal-jdcuat.amd.com/browse/"
 const orgName = core.getInput('github-organization', {required: true})
 const repo = core.getInput('github-repo', {required: true})
 console.log(orgName, repo)
@@ -67,6 +68,11 @@ const queryToGetLatestOnDash =  `{
             id
           }
         }
+        jira_link_column_id:field(name:"JIRA Link"){
+          ... on ProjectV2Field{
+            id
+          }
+        }
         items(last: 1){
           last_item:nodes {
             __typename
@@ -100,7 +106,7 @@ const queryToGetLatestOnDash =  `{
     return mutationQuery
   }
   
-  function createSWDEVTicketBody(summary, description){
+  function createSWDEVTicketBody(summary, description, gpu, rocm){
 
     return {"FieldValues": {
       "summary": `${summary}`,
@@ -109,7 +115,7 @@ const queryToGetLatestOnDash =  `{
       "Program": "ROCm on Radeon",
       "TriageCategory": "Radeon Open Compute",
       "TriageAssignment": "Triage - ML SDK",
-      "labels": "test,check",
+      "labels": `github community,${gpu},${rocm}`,
       "Severity": "Low",
       "comments": "testing",
       "assignee": "abhimeda",
@@ -117,7 +123,14 @@ const queryToGetLatestOnDash =  `{
   }}
 }
   
-
+function hasInstinct(gpuList){
+  gpuList.array.forEach(element => {
+    if (element.includes("Instinct")){
+      return true
+    }
+  });
+  return false
+}
 
 async function run() { 
     console.log("running")
@@ -135,6 +148,9 @@ async function run() {
         const title = "TESTING-AMD-GITHUB-RUNNER"
         // console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
         let [gpu, rocmVersions] = await extractInfo(octokit, body, num)
+        
+
+        
         console.log(gpu, rocmVersions)
         gpu = String(gpu)
         rocmVersions = String(rocmVersions)
@@ -143,6 +159,7 @@ async function run() {
         const project_id = graphQL.organization.projectV2.project_id
         const gpu_column_id = graphQL.organization.projectV2.gpu_column_id.id
         const rocm_version_column_id = graphQL.organization.projectV2.rocm_version_column_id.id
+        const jira_link_column_id = graphQL.organization.projectV2.jira_link_column_id.id
         const latest_row_id = graphQL.organization.projectV2.items.last_item[0].latest_row_id
 
         let response 
@@ -157,7 +174,7 @@ async function run() {
         const username = String.raw`amd\z1_jira_account`
         const password = "dy75!cbmkt65ft"
 
-        const swdevBody = createSWDEVTicketBody(title, body)
+        const swdevBody = createSWDEVTicketBody(title, body, gpu, rocm)
         
         const instance = axios.create({
           httpsAgent: new https.Agent({  
@@ -171,8 +188,10 @@ async function run() {
             password:password
           }
         })
-        .then(res => {
-          console.log(res.data)
+        .then(async res => {
+          const link = res.data["key"]
+          response = await octokit.graphql(constructColumnMutationQuery(jira_link_column_id, latest_row_id, project_id, jiraLink+link ))
+          console.log("Updating Jira Link column: ",JSON.stringify(response, null, 4))
         })
         .catch(error => console.log("ERROR: ", error))
 
