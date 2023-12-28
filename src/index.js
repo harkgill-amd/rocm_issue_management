@@ -177,7 +177,7 @@ async function run() {
         const username = String.raw`amd\z1_jira_account`
         const password = "dy75!cbmkt65ft"
 
-        const swdevBody = createSWDEVTicketBody(title, body, gpu, rocmVersions)
+        const swdevBody = createSWDEVTicketBody(title, body, gpuLabel, rocmLabel)
         
         const instance = axios.create({
           httpsAgent: new https.Agent({  
