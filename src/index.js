@@ -147,8 +147,9 @@ async function run() {
         const num = contextPayload.issue.number
         const title = "TESTING-AMD-GITHUB-RUNNER"
         // console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
-        let [gpu, rocmVersions] = await extractInfo(octokit, body, num);
-        let gpuLabel = hasInstinct(gpu) === true ? "Instinct" : "Radeon";
+        let [gpu, rocmVersions] = await extractInfo(octokit, body, num);\
+        let gpuFamily = hasInstinct(gpu);
+        let gpuLabel = gpuFamily === true ? "Instinct" : "Radeon";
         let rocmLabel = rocmVersions.sort()
         rocmLabel = rocmLabel[rocmLabel.length - 1].replace(" ", "_")
 
