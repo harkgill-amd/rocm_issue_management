@@ -124,6 +124,7 @@ const queryToGetLatestOnDash =  `{
 }
   
 function hasInstinct(gpuList){
+  console.log(gpuList)
   gpuList.array.forEach(element => {
     if (element.includes("Instinct")){
       return true
@@ -139,7 +140,6 @@ async function run() {
 
         const githubToken = core.getInput('authentication-token', {required: true})
         const octokit = github.getOctokit(githubToken);
-        console.log("Octokit", octokit)
         const contextPayload = github.context.payload;
 
         
