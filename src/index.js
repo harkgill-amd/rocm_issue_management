@@ -141,7 +141,7 @@ async function run() {
         const githubToken = core.getInput('authentication-token', {required: true})
         const octokit = github.getOctokit(githubToken);
         const contextPayload = github.context.payload;
-
+        console.log(JSON.stringify(contextPayload, null, 4))
         
         const body = contextPayload.issue.body
         console.log(body)
