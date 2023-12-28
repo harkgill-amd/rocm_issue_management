@@ -124,12 +124,12 @@ const queryToGetLatestOnDash =  `{
 }
   
 function hasInstinct(gpuList){
-  console.log(gpuList)
-  gpuList.forEach(element => {
+  for(const element of gpuList){
     if (element.includes("Instinct")){
       return true;
     }
-  });
+  }
+
   return false
 }
 
