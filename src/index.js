@@ -115,7 +115,7 @@ const queryToGetLatestOnDash =  `{
       "Program": "ROCm on Radeon",
       "TriageCategory": "Radeon Open Compute",
       "TriageAssignment": "Triage - ML SDK",
-      "labels": `github_community`,
+      "labels": `github_community,${gpu},${rocm}`,
       "Severity": "Low",
       "comments": "testing",
       "assignee": "abhimeda",
