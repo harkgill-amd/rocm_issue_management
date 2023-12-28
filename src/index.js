@@ -144,6 +144,7 @@ async function run() {
 
         
         const body = contextPayload.issue.body
+        console.log(body)
         const num = contextPayload.issue.number
         const title = "TESTING-AMD-GITHUB-RUNNER"
         // console.log("JSON contextPayload.issue:  ",JSON.stringify(contextPayload.issue))
