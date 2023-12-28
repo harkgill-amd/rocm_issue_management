@@ -107,7 +107,7 @@ const queryToGetLatestOnDash =  `{
   }
   
   function createSWDEVTicketBody(summary, description, gpu, rocm){
-
+    // TODO: Fix GPU and ROCm to not be space separated strings
     return {"FieldValues": {
       "summary": `${summary}`,
       "description": `${description}`,
@@ -115,7 +115,7 @@ const queryToGetLatestOnDash =  `{
       "Program": "ROCm on Radeon",
       "TriageCategory": "Radeon Open Compute",
       "TriageAssignment": "Triage - ML SDK",
-      "labels": `github community,${gpu},${rocm}`,
+      "labels": `github_community`,
       "Severity": "Low",
       "comments": "testing",
       "assignee": "abhimeda",
