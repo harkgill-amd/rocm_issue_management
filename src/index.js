@@ -239,7 +239,7 @@ async function run(){
 
 
     const octokit = getOctokit(githubToken);
-    const issue = github.context.payload.issue;
+    const issue = octokit.context.payload.issue;
 
     const body = issue.body
     const issueNum = issue.number
