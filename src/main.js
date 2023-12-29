@@ -31,8 +31,10 @@ async function run(){
     const body = issue.body
     const issueNum = issue.number
     const title = issue.title
-
+    
+    console.log(body)
     let parsedIssueBody = extractInfoFromIssueBody(body)
+    console.log(parsedIssueBody)
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
         return v.trim()
