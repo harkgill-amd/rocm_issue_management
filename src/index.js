@@ -213,6 +213,7 @@
 import { getInput, setFailed } from "@actions/core";
 import { getOctokit, context } from "@actions/github";
 import axios from "axios";
+import https from "https"
 import { queryToGetLatestOnDash, 
          constructColumnMutationQuery, 
          createSWDEVTicketBody, 
