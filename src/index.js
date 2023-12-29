@@ -210,9 +210,8 @@
 
 // ======================================================================================================
 
-
-import { getInput, setFailed } from "@actions/core"
-import { getOctokit } from "@actions/github"
+import { getInput, setFailed } from "@actions/core";
+import { getOctokit, context } from "@actions/github";
 import { queryToGetLatestOnDash, 
          constructColumnMutationQuery, 
          createSWDEVTicketBody, 
@@ -222,7 +221,6 @@ import { queryToGetLatestOnDash,
          gpuToJiraProgram,
          createJiraDescription } from "./utils.js"
 
-import axios from "axios"
 // change to production later on
 const SWDEVURL = "https://dalwebapiuat.amd.com/DALWebApiLinuxJDC/CreateSwdevTicket"
 let jiraLink = "https://ontrack-internal-jdcuat.amd.com/browse/"
@@ -239,7 +237,7 @@ async function run(){
 
 
     const octokit = getOctokit(githubToken);
-    const issue = octokit.context.payload.issue;
+    const issue = context.payload.issue;
 
     const body = issue.body
     const issueNum = issue.number
