@@ -122,14 +122,15 @@ function extractInfoFromIssueBody(body){
     let issueBody = {}
     for (const [index, delim] of delims.entries()) {
         let text = ""
-        let start = body.indexOf(delim)
         if (index + 1 != 10){
+            let start = body.indexOf(delim)
             let end = body.indexOf(delims[index + 1])
             start += delim.length
             text = body.substring(start, end).trim()
 
         }
         else{
+            let start = body.indexOf(delim)
             start += delim.length
             text = body.substring(start).trim()
         }
