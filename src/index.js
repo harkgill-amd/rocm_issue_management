@@ -212,6 +212,7 @@
 
 import { getInput, setFailed } from "@actions/core";
 import { getOctokit, context } from "@actions/github";
+import axios from "axios";
 import { queryToGetLatestOnDash, 
          constructColumnMutationQuery, 
          createSWDEVTicketBody, 
