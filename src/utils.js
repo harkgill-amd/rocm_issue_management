@@ -16,7 +16,7 @@ organization(login: "RadeonOpenCompute") {
         id
         }
     }
-    jira_link_column_id:field(name: "Jira Link"){
+    jira_link_column_id:field(name: "JIRA Link"){
         ... on ProjectV2Field{
             id
         }
