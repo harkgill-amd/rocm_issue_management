@@ -84,9 +84,9 @@ return mutationQuery
  * @returns String
  */
 function createSWDEVTicketBody(program, title, description, gpuLabel, rocmLabel){
-
+console.log(title)
 return {"FieldValues": {
-    "title": `${title}`,
+    "title": `TESTING-ACTION`,
     "description": `${description}`,
     "issuetype": "Defect",
     "Program": `${program}`,
