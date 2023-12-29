@@ -240,7 +240,7 @@ async function run(){
 
     const octokit = getOctokit(githubToken);
     const issue = context.payload.issue;
-
+    console.log(issue)
     const body = issue.body
     const issueNum = issue.number
     const title = issue.title
