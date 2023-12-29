@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A github action that manages opened issues in ROCm repositories",
   "main": "src/index.js",
+  "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
