@@ -128,6 +128,7 @@ async function run(){
           rejectUnauthorized: false
         })
       })
+    let response;
     const jiraResponse = await instance.post(SWDEVURL, swdevTicket, {
     auth:{
         username:username,
