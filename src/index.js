@@ -235,7 +235,7 @@ async function run(){
     // Getting the fields set in the workflow file in the repository
     const orgName = getInput('github-organization', {required: true});
     const repo = getInput('github-repo', {required: true});
-    const githubToken = core.getInput('authentication-token', {required: true})
+    const githubToken = getInput('authentication-token', {required: true})
 
 
     const octokit = getOctokit(githubToken);
