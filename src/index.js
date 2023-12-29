@@ -244,8 +244,10 @@ async function run(){
     const body = issue.body
     const issueNum = issue.number
     const title = issue.title
-
+    
+    console.log(body)
     let parsedIssueBody = extractInfoFromIssueBody(body)
+    console.log(parsedIssueBody)
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
         return v.trim()
@@ -333,7 +335,7 @@ async function run(){
     
     const username = String.raw`amd\z1_jira_account`
     const password = "dy75!cbmkt65ft"
-
+    let response;
     const instance = axios.create({
         httpsAgent: new https.Agent({  
           rejectUnauthorized: false
