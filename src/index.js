@@ -335,8 +335,8 @@ async function run(){
 
     console.log(selectedGpus)
     console.log(rocmVersions)
-    
-    const swdevTicket = createSWDEVTicketBody(program, title, jiraBody, "Gpu label TODO", "Rocm version label TODO")
+
+    const swdevTicket = createSWDEVTicketBody(program, title, jiraBody)
     
     const username = String.raw`amd\z1_jira_account`
     const password = "dy75!cbmkt65ft"

@@ -83,7 +83,7 @@ return mutationQuery
  * @param {String} rocmLabel The ROCm version with the greatest version number that will be used to label this ticket
  * @returns String
  */
-function createSWDEVTicketBody(program, title, description, gpuLabel, rocmLabel){
+function createSWDEVTicketBody(program, title, description){
 return {"FieldValues": {
     "summary": `${title}`,
     "description": `${description}`,
@@ -91,7 +91,7 @@ return {"FieldValues": {
     "Program": `${program}`,
     "TriageCategory": "Radeon Open Compute",
     "TriageAssignment": "Triage - ML SDK",
-    "labels": `github_community,${gpuLabel},${rocmLabel}`,
+    "labels": `github_community`,
     "Severity": "Low",
     "comments": "testing",
     "assignee": "abhimeda",
