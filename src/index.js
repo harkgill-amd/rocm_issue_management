@@ -321,6 +321,8 @@ async function run(){
         console.log("Could not add OS to dashboard", e)
     }
     selectedGpus = selectedGpus.sort()
+    rocmVersions = rocmVersions.sort()
+
     const program = gpuToJiraProgram(selectedGpus[selectedGpus.length - 1])
     const jiraBody = createJiraDescription(parsedIssueBody)
     
@@ -331,7 +333,7 @@ async function run(){
         v.replace(" ", "_")
     })
 
-    const swdevTicket = createSWDEVTicketBody(program, title, jiraBody, String(selectedGpus), String(rocmVersions))
+    const swdevTicket = createSWDEVTicketBody(program, title, jiraBody, String(selectedGpus[selectedGpus.length - 1]), String(rocmVersions[rocmVersions.length - 1]))
     
     const username = String.raw`amd\z1_jira_account`
     const password = "dy75!cbmkt65ft"

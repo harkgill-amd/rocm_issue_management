@@ -235,9 +235,7 @@ function gpuToJiraProgram(gpu){
  * @returns String
  */
 function createJiraDescription(parsedIssueBody){
-    return `Description:
-    ${parsedIssueBody.description}
-
+    return `
     OS:
     ${parsedIssueBody.os}
 
