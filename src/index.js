@@ -333,7 +333,10 @@ async function run(){
         v.replace(" ", "_")
     })
 
-    const swdevTicket = createSWDEVTicketBody(program, title, jiraBody, String(selectedGpus[selectedGpus.length - 1]), String(rocmVersions[rocmVersions.length - 1]))
+    console.log(selectedGpus)
+    console.log(rocmVersions)
+    
+    const swdevTicket = createSWDEVTicketBody(program, title, jiraBody, "Gpu label TODO", "Rocm version label TODO")
     
     const username = String.raw`amd\z1_jira_account`
     const password = "dy75!cbmkt65ft"
