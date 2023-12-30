@@ -320,8 +320,8 @@ async function run(){
     catch(e){
         console.log("Could not add OS to dashboard", e)
     }
-    selectedGpus = selectedGpus.sort()
-    rocmVersions = rocmVersions.sort()
+    selectedGpus.sort()
+    rocmVersions.sort()
 
     const program = gpuToJiraProgram(selectedGpus[selectedGpus.length - 1])
     const jiraBody = createJiraDescription(parsedIssueBody)
