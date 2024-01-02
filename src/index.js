@@ -283,6 +283,15 @@ async function run(){
     const os_column_id = latestEntry.organization.projectV2.os_column_id.id
     const latest_row_id = latestEntry.organization.projectV2.items.last_item[0].latest_row_id
 
+    console.log(project_id)
+    console.log(gpu_column_id)
+    console.log(rocm_version_column_id)
+    console.log(jira_link_column_id)
+    console.log(component_column_id)
+    console.log(os_column_id)
+    console.log(latest_row_id)
+
+
     let rocmTransform = transformRocmVersions(rocmVersions)
     let gpuTransform = transformGpuVersions(selectedGpus)
     
