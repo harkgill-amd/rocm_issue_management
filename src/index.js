@@ -275,12 +275,12 @@ async function run(){
         console.log("Could not get latest row from GitHub dashboard", e)
     }
 
-    const project_id = latestEntry.organization.projectV2.project_id
-    const gpu_column_id = latestEntry.organization.projectV2.gpu_column_id.id
-    const rocm_version_column_id = latestEntry.organization.projectV2.rocm_version_column_id.id
-    const jira_link_column_id = latestEntry.organization.projectV2.jira_link_column_id.id
-    const component_column_id = latestEntry.organization.projectV2.component_column_id.id
-    const os_column_id = latestEntry.organization.projectV2.os_column_id.id
+    const project_id = "PVT_kwDOAQHiKc4AZ7JW"
+    const gpu_column_id = "PVTF_lADOAQHiKc4AZ7JWzgQmqtw"
+    const rocm_version_column_id = "PVTF_lADOAQHiKc4AZ7JWzgQmqwU"
+    const jira_link_column_id = "PVTF_lADOAQHiKc4AZ7JWzgQx9Bw"
+    const component_column_id = "PVTF_lADOAQHiKc4AZ7JWzgQzzl8"
+    const os_column_id = "PVTF_lADOAQHiKc4AZ7JWzgQzznQ"
     const latest_row_id = latestEntry.organization.projectV2.items.last_item[0].latest_row_id
 
     console.log(project_id)
