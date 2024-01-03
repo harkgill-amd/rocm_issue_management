@@ -35,12 +35,6 @@ organization(login: "RadeonOpenCompute") {
         last_item:nodes {
         __typename
         latest_row_id: id
-        fieldValueByName(name: "GPUs"){
-            ... on ProjectV2ItemFieldTextValue{
-            id
-            text
-            }
-        }
         }
     }
     }
