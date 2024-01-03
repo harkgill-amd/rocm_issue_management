@@ -30,9 +30,7 @@ async function run(){
     const issueNum = issue.number
     const title = issue.title
     
-    console.log(body)
     let parsedIssueBody = extractInfoFromIssueBody(body)
-    console.log(parsedIssueBody)
     
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
@@ -55,11 +53,14 @@ async function run(){
 
 
     let component;
-    if (repoName === "github_action_poc"){
+    if (repoName === "ROCm"){
+
+        // issues from ROCm/ROCm can have multiple components to be targetted
         component = parsedIssueBody.component.split(", ").map(v => {
             return v.trim()
         })
     }
+    // issues from non ROCm repos have only a single component to deal with
     else{
         component = repoName
     }
@@ -80,14 +81,6 @@ async function run(){
     const component_column_id = latestEntry.organization.projectV2.component_column_id.id
     const os_column_id = latestEntry.organization.projectV2.os_column_id.id
     const latest_row_id = latestEntry.organization.projectV2.items.last_item[0].latest_row_id
-
-    console.log(project_id)
-    console.log(gpu_column_id)
-    console.log(rocm_version_column_id)
-    console.log(jira_link_column_id)
-    console.log(component_column_id)
-    console.log(os_column_id)
-    console.log(latest_row_id)
 
 
     let rocmTransform = transformRocmVersions(rocmVersions)
