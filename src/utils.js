@@ -6,7 +6,7 @@
  */
 function queryToGetLatestOnDash(orgName, projectNum){
     return `{
-        organization(login: ${orgName}) {
+        organization(login: "${orgName}") {
             projectV2(number: ${projectNum}) {
             project_id: id
             gpu_column_id:field(name:"GPUs"){
