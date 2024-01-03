@@ -8,7 +8,7 @@ inputs:
     github-organization: 
         description: 'The organization that owns github-repo.'
         required: true
-     project-num:
+    project-num:
         description: 'The project to move issues to'
         required: true
 
