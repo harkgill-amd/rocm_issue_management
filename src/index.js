@@ -17,8 +17,9 @@ async function run(){
    
     // Getting the fields set in the workflow file in the repository
     const orgName = getInput('github-organization', {required: true});
+    const projectNum = getInput('project-num', {required: true});
     const githubToken = getInput('authentication-token', {required: true})
-
+    
 
     const octokit = getOctokit(githubToken);
     const issue = context.payload.issue;
@@ -68,7 +69,7 @@ async function run(){
 
     let latestEntry;
     try {
-        latestEntry = await octokit.graphql(queryToGetLatestOnDash)
+        latestEntry = await octokit.graphql(queryToGetLatestOnDash(orgName, projectNum))
     }
     catch(e){
         console.log("Could not get latest row from GitHub dashboard", e)

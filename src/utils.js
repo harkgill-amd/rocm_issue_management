@@ -1,45 +1,49 @@
 /**
  * GraphQL Query that returns information needed to mutate the project.
- * @returns project_id, gpu_column_id, rocm_version_column_id, latest_row_id
+ * @param {String} orgName      The organization
+ * @param {String} projectNum   The project number
+ * @returns String
  */
-const queryToGetLatestOnDash =  `{
-organization(login: "RadeonOpenCompute") {
-    projectV2(number: 11) {
-    project_id: id
-    gpu_column_id:field(name:"GPUs"){
-        ... on ProjectV2Field{
-        id
+function queryToGetLatestOnDash(orgName, projectNum){
+    return `{
+        organization(login: ${orgName}) {
+            projectV2(number: ${projectNum}) {
+            project_id: id
+            gpu_column_id:field(name:"GPUs"){
+                ... on ProjectV2Field{
+                id
+                }
+            }
+            rocm_version_column_id:field(name:"ROCmVersions"){
+                ... on ProjectV2Field{
+                id
+                }
+            }
+            jira_link_column_id:field(name: "JIRA Link"){
+                ... on ProjectV2Field{
+                    id
+                }
+            }
+            component_column_id:field(name: "Component"){
+                ... on ProjectV2Field{
+                    id
+                }
+            }
+            os_column_id:field(name: "OS"){
+                ... on ProjectV2Field{
+                    id
+                }
+            }
+            items(last: 1){
+                last_item:nodes {
+                __typename
+                latest_row_id: id
+                }
+            }
+            }
         }
-    }
-    rocm_version_column_id:field(name:"ROCmVersions"){
-        ... on ProjectV2Field{
-        id
-        }
-    }
-    jira_link_column_id:field(name: "JIRA Link"){
-        ... on ProjectV2Field{
-            id
-        }
-    }
-    component_column_id:field(name: "Component"){
-        ... on ProjectV2Field{
-            id
-        }
-    }
-    os_column_id:field(name: "OS"){
-        ... on ProjectV2Field{
-            id
-        }
-    }
-    items(last: 1){
-        last_item:nodes {
-        __typename
-        latest_row_id: id
-        }
-    }
-    }
+        }`
 }
-}`
 
 
 /**
