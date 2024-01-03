@@ -17,14 +17,15 @@ async function run(){
    
     // Getting the fields set in the workflow file in the repository
     const orgName = getInput('github-organization', {required: true});
-    const repo = getInput('github-repo', {required: true});
     const githubToken = getInput('authentication-token', {required: true})
 
 
     const octokit = getOctokit(githubToken);
     const issue = context.payload.issue;
-    console.log(context.payload)
-    console.log(issue)
+    
+    let repoName = context.payload.repository.full_name
+    repoName = repoName.split("RadeonOpenCompute/")[1] // get the name after the organization name
+ 
     const body = issue.body
     const issueNum = issue.number
     const title = issue.title
@@ -32,6 +33,7 @@ async function run(){
     console.log(body)
     let parsedIssueBody = extractInfoFromIssueBody(body)
     console.log(parsedIssueBody)
+    
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
         return v.trim()
@@ -45,11 +47,23 @@ async function run(){
 
     // Adding labels to the issue using the GPU and ROCm versions
     try{
-        await octokit.rest.issues.addLabels({owner: orgName, repo: repo, issue_number:issueNum, labels:labels})
+        await octokit.rest.issues.addLabels({owner: orgName, repo: repoName, issue_number:issueNum, labels:labels})
     }
     catch(e){
         console.log("Could not add labels to the newly created issue", e)
     }
+
+
+    let component;
+    if (repoName === "github_action_poc"){
+        component = parsedIssueBody.component.split(", ").map(v => {
+            return v.trim()
+        })
+    }
+    else{
+        component = repoName
+    }
+
 
     let latestEntry;
     try {
@@ -99,7 +113,7 @@ async function run(){
     }
 
     try{
-        graphqlResponse = await octokit.graphql((constructColumnMutationQuery(component_column_id, latest_row_id, project_id, repo)))
+        graphqlResponse = await octokit.graphql((constructColumnMutationQuery(component_column_id, latest_row_id, project_id, component)))
         console.log("Successfully added component to dashboard")
     }
     catch(e){
