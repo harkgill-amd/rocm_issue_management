@@ -8,8 +8,8 @@ inputs:
     github-organization: 
         description: 'The organization that owns github-repo.'
         required: true
-    github-repo:
-        description: 'The repository for which to track issues'
+     project-num:
+        description: 'The project to move issues to'
         required: true
 
 runs:   
