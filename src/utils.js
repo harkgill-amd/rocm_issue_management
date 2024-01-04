@@ -162,7 +162,6 @@ function extractInfoFromIssueBody(body){
         else{
             start += delim.length
             text = body.substring(start).trim()
-            console.log(text)
         }
         switch(delim){
             case descriptionDelim:
