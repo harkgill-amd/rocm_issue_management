@@ -47,6 +47,7 @@ async function run(){
     // Adding labels to the issue using the GPU and ROCm versions
     try{
         await octokit.rest.issues.addLabels({owner: orgName, repo: repoName, issue_number:issueNum, labels:labels})
+        console.log("Successfully added labels to issue")
     }
     catch(e){
         console.log("Could not add labels to the newly created issue", e)
@@ -55,6 +56,7 @@ async function run(){
     let gettingProjectIdResponse; 
     try {
         gettingProjectIdResponse = await octokit.graphql(getProjectId(orgName, projectNum))
+        console.log("Successfully got project id")
     }
     catch(e){
         console.log("Could not get project id", e)
@@ -64,6 +66,7 @@ async function run(){
 
     try {
         await octokit.graphql(addIssueToProject(project_id, issue_node_id))
+        console.log("Successfully added issue to dashboard")
 
     }
     catch(e){
