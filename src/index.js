@@ -2,12 +2,11 @@ import { getInput, setFailed } from "@actions/core";
 import { getOctokit, context } from "@actions/github";
 import { queryToGetLatestOnDash, 
          constructColumnMutationQuery, 
-         createSWDEVTicketBody, 
          extractInfoFromIssueBody,
          transformRocmVersions,
          transformGpuVersions,
-         gpuToJiraProgram,
-         createJiraDescription } from "./utils.js"
+         addIssueToProject,
+         getProjectId } from "./utils.js"
 
 
 async function run(){
@@ -29,7 +28,8 @@ async function run(){
  
     const body = issue.body
     const issueNum = issue.number
-    const title = issue.title
+    const issue_node_id = issue.node_id
+
     
     let parsedIssueBody = extractInfoFromIssueBody(body)
     
@@ -52,7 +52,24 @@ async function run(){
         console.log("Could not add labels to the newly created issue", e)
     }
 
+    let gettingProjectIdResponse; 
+    try {
+        gettingProjectIdResponse = await octokit.graphql(getProjectId(orgName, projectNum))
+    }
+    catch(e){
+        console.log("Could not get project id", e)
+    }
 
+    const project_id = gettingProjectIdResponse.organization.projectV2.project_id
+
+    try {
+        await octokit.graphql(addIssueToProject(project_id, issue_node_id))
+
+    }
+    catch(e){
+        console.log("Could not add issue to project", e)
+    }
+    
     let component;
     if (repoName === "ROCm"){
 
@@ -75,10 +92,8 @@ async function run(){
         console.log("Could not get latest row from GitHub dashboard", e)
     }
 
-    const project_id = latestEntry.organization.projectV2.project_id
     const gpu_column_id = latestEntry.organization.projectV2.gpu_column_id.id
     const rocm_version_column_id = latestEntry.organization.projectV2.rocm_version_column_id.id
-    const jira_link_column_id = latestEntry.organization.projectV2.jira_link_column_id.id
     const component_column_id = latestEntry.organization.projectV2.component_column_id.id
     const os_column_id = latestEntry.organization.projectV2.os_column_id.id
     const latest_row_id = latestEntry.organization.projectV2.items.last_item[0].latest_row_id

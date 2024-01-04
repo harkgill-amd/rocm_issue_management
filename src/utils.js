@@ -8,7 +8,6 @@ function queryToGetLatestOnDash(orgName, projectNum){
     return `{
         organization(login: "${orgName}") {
             projectV2(number: ${projectNum}) {
-            project_id: id
             gpu_column_id:field(name:"GPUs"){
                 ... on ProjectV2Field{
                 id
@@ -45,6 +44,39 @@ function queryToGetLatestOnDash(orgName, projectNum){
         }`
 }
 
+/**
+ * Get Project Id query
+ * @param {String} orgName 
+ * @param {String} projectNum 
+ * @returns String
+ */
+function getProjectId(orgName, projectNum){
+    return`{
+        organization(login: "${orgName}") {
+            projectV2(number: ${projectNum}) {
+                project_id: id
+            }
+        }
+    }`
+        
+}
+
+/**
+ * Create add issue to project mutation query
+ * @param {String} project_id 
+ * @param {String} issue_node_id 
+ * @returns 
+ */
+function addIssueToProject(project_id, issue_node_id){
+    return `mutation{
+        addProjectV2ItemById(input: {projectId:"${project_id}" contentId: "${issue_node_id}"}) {
+        item {
+            id
+        }
+        }
+    }`
+    
+}
 
 /**
  * Change the cell defined at (rowToChange, colToChange) inside of
@@ -265,6 +297,8 @@ export {
     transformGpuVersions,
     gpuToJiraProgram,
     createJiraDescription,
+    addIssueToProject,
+    getProjectId
 
 }
 
