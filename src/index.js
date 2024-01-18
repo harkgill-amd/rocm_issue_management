@@ -15,8 +15,8 @@ async function run(){
 
    
     // Getting the fields set in the workflow file in the repository
-    const orgName = getInput('github-organization', {required: true});
-    const projectNum = getInput('project-num', {required: true});
+    const orgName = "temporarysupersecretorganization"
+    const projectNum = 1
     const githubToken = getInput('authentication-token', {required: true})
     
 
@@ -32,7 +32,7 @@ async function run(){
 
     
     let parsedIssueBody = extractInfoFromIssueBody(body)
-    
+    console.log(parsedIssueBody)
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
         return v.trim()
