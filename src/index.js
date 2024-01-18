@@ -10,7 +10,6 @@ import { queryToGetLatestOnDash,
 
 
 async function run(){
-    console.log("TEMPPPPPP")
     try {
 
    
@@ -21,6 +20,9 @@ async function run(){
     
 
     const octokit = getOctokit(githubToken);
+
+    console.log(context.payload)
+    
     const issue = context.payload.issue;
     
     let repoName = context.payload.repository.full_name
@@ -33,7 +35,6 @@ async function run(){
     
     let parsedIssueBody = extractInfoFromIssueBody(body)
     
-    console.log(parsedIssueBody)
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
         return v.trim()
