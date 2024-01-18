@@ -15,8 +15,8 @@ async function run(){
 
    
     // Getting the fields set in the workflow file in the repository
-    const orgName = "temporarysupersecretorganization"
-    const projectNum = 1
+    const orgName = getInput('github-organization', {required: true});
+    const projectNum = getInput('project-num', {required: true});
     const githubToken = getInput('authentication-token', {required: true})
     
 
