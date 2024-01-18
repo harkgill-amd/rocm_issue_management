@@ -26,7 +26,7 @@ async function run(){
     console.log(context.payload)
 
     let repoName = context.payload.repository.full_name
-    repoName = repoName.split("RadeonOpenCompute/")[1] // get the name after the organization name
+    repoName = repoName.split("/")[1] // get the name after the organization name
  
     const body = issue.body
     const issueNum = issue.number
