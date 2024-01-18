@@ -22,7 +22,7 @@ async function run(){
     const octokit = getOctokit(githubToken);
 
     console.log(context.payload)
-    
+
     const issue = context.payload.issue;
     
     let repoName = context.payload.repository.full_name
@@ -31,7 +31,10 @@ async function run(){
     const body = issue.body
     const issueNum = issue.number
     const issue_node_id = issue.node_id
-
+    
+    if(!body.includes('### Problem Description\n')){
+        return;
+    }
     
     let parsedIssueBody = extractInfoFromIssueBody(body)
     
