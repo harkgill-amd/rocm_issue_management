@@ -34,7 +34,6 @@ async function run(){
 
     
     let parsedIssueBody = extractInfoFromIssueBody(body)
-    console.log(parsedIssueBody)
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
         return v.trim()
