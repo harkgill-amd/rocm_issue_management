@@ -10,7 +10,7 @@ import { queryToGetLatestOnDash,
 
 
 async function run(){
-    
+    console.log("TEMPPPPPP")
     try {
 
    
@@ -23,6 +23,8 @@ async function run(){
     const octokit = getOctokit(githubToken);
     const issue = context.payload.issue;
     
+    console.log(context.payload)
+
     let repoName = context.payload.repository.full_name
     repoName = repoName.split("RadeonOpenCompute/")[1] // get the name after the organization name
  
