@@ -23,8 +23,6 @@ async function run(){
     const octokit = getOctokit(githubToken);
     const issue = context.payload.issue;
     
-    console.log(context.payload)
-
     let repoName = context.payload.repository.full_name
     repoName = repoName.split("/")[1] // get the name after the organization name
  
@@ -35,7 +33,7 @@ async function run(){
     
     let parsedIssueBody = extractInfoFromIssueBody(body)
     
-        console.log(parsedIssueBody)
+    console.log(parsedIssueBody)
 
     let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
         return v.trim()
