@@ -55,7 +55,12 @@ async function run(){
 
     let labels = [... selectedGpus, ...rocmVersions]
 
-
+    if (/Documentation/i.test(issue.title)) {
+        labels.push("Documentation");
+    }
+    if (/Feature/i.test(issue.title)) {
+        labels.push("Feature Request");
+    }
 
 
     
