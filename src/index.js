@@ -44,36 +44,32 @@ async function run(){
         "ROCm 6.2.2", "ROCm 6.2.4", "ROCm 6.3.0", "ROCm 6.3.1", "ROCm 6.3.2"
     ]);
     
-    const validGpuLabels = new Set([
-        "AMD Instinct MI325X", "AMD Instinct MI300X", "AMD Instinct MI300A",
-        "AMD Instinct MI250X", "AMD Instinct MI250", "AMD Instinct MI210",
-        "AMD Instinct MI100", "AMD Instinct MI50", "AMD Instinct MI25",
-        "AMD Radeon PRO V710", "AMD Radeon PRO W7900 Dual Slot", "AMD Radeon PRO W7900",
-        "AMD Radeon PRO W7800", "AMD Radeon PRO W6800", "AMD Radeon PRO V620",
-        "AMD Radeon PRO VII", "AMD Radeon RX 7900 XTX", "AMD Radeon RX 7900 XT",
-        "AMD Radeon RX 7900 GRE", "AMD Radeon VII"
-    ]);
+    const gpuMappings = {
+        "AMD Radeon RX 7900 XTX": ["7900xtx", "rx7900xtx", "radeon7900xtx", "amd7900xtx", "amd radeon 7900xtx", "radeon rx 7900xtx"],
+        "AMD Radeon RX 7900 XT": ["7900xt", "rx7900xt", "radeon7900xt", "amd7900xt"],
+        "AMD Radeon RX 7900 GRE": ["7900gre", "rx7900gre", "radeon rx 7900gre"],
+        "AMD Radeon VII": ["radeon vii"],
+        "AMD Instinct MI250": ["instinct mi250", "mi250"],
+        "AMD Instinct MI250X": ["mi250x"],
+        "AMD Instinct MI300X": ["mi300x"],
+        "AMD Instinct MI300A": ["mi300a"],
+        "AMD Instinct MI325X": ["mi325x"]
+    };
     
-    const gpuRegex = /(amd\s*)?(radeon|instinct)?\s*(rx|pro)?\s*(mi\d{2,4}[xa]?|vii|v\d{3,4}|w\d{3,4}|7900\s*(xtx|xt|gre))/i;
-    
-    // Check for match against regex and then check for presence in valid GPU labels
+    // Function to match input GPU name to the correct label
     function getValidGpuLabels(userInput) {
-        return userInput.split(", ").map(gpu => {
-            let match = gpu.match(gpuRegex);
-            if (match) {
-                let normalizedGpu = match[0].trim(); 
-                for (let label of validGpuLabels) {
-                    if (label.toLowerCase().includes(normalizedGpu.toLowerCase())) {
-                        return label;
-                    }
+        return userInput.split(", ").map(input => {
+            let normalizedInput = input.toLowerCase().replace(/\s+/g, ""); 
+            for (let [label, variations] of Object.entries(gpuMappings)) {
+                if (variations.includes(normalizedInput)) {
+                    return label;
                 }
             }
             return null; 
         }).filter(Boolean);
     }
     
-    let selectedGpus = getValidGpuLabels(parsedIssueBody.gpu);
-    
+    let selectedGpus = getValidGpuLabels(userInput);
     
     // Add "ROCm" to the version and check against set of valid labels
     let rocmVersions = parsedIssueBody.rocmVersions.split(", ").map(v => {
