@@ -53,7 +53,7 @@ async function run(){
         return validRocmLabels.has(formattedVersion) ? formattedVersion : null;
     }).filter(Boolean);
 
-    let labels = [... selectedGpus, ...rocmVersions, ...doc]
+    let labels = [... selectedGpus, ...rocmVersions]
 
 
 
