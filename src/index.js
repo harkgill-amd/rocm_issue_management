@@ -56,10 +56,9 @@ async function run(){
         "AMD Instinct MI325X": ["mi325x"]
     };
     
-    // Function to match input GPU name to the correct label
     function getValidGpuLabels(userInput) {
         return userInput.split(", ").map(input => {
-            let normalizedInput = input.toLowerCase().replace(/\s+/g, ""); 
+            let normalizedInput = input.toLowerCase().replace(/\s+/g, "");
             for (let [label, variations] of Object.entries(gpuMappings)) {
                 if (variations.includes(normalizedInput)) {
                     return label;
@@ -69,7 +68,8 @@ async function run(){
         }).filter(Boolean);
     }
     
-    let selectedGpus = getValidGpuLabels(userInput);
+    let selectedGpus = getValidGpuLabels(parsedIssueBody.gpu.split(", ").map(v => v.trim()));
+    
     
     // Add "ROCm" to the version and check against set of valid labels
     let rocmVersions = parsedIssueBody.rocmVersions.split(", ").map(v => {
