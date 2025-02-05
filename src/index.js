@@ -44,7 +44,36 @@ async function run(){
         "ROCm 6.2.2", "ROCm 6.2.4", "ROCm 6.3.0", "ROCm 6.3.1", "ROCm 6.3.2"
     ]);
     
-    let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => v.trim());
+    const validGpuLabels = new Set([
+        "AMD Instinct MI325X", "AMD Instinct MI300X", "AMD Instinct MI300A",
+        "AMD Instinct MI250X", "AMD Instinct MI250", "AMD Instinct MI210",
+        "AMD Instinct MI100", "AMD Instinct MI50", "AMD Instinct MI25",
+        "AMD Radeon PRO V710", "AMD Radeon PRO W7900 Dual Slot", "AMD Radeon PRO W7900",
+        "AMD Radeon PRO W7800", "AMD Radeon PRO W6800", "AMD Radeon PRO V620",
+        "AMD Radeon PRO VII", "AMD Radeon RX 7900 XTX", "AMD Radeon RX 7900 XT",
+        "AMD Radeon RX 7900 GRE", "AMD Radeon VII"
+    ]);
+    
+    const gpuRegex = /(amd\s*)?(radeon|instinct)?\s*(rx|pro)?\s*(mi\d{2,4}[xa]?|vii|v\d{3,4}|w\d{3,4}|7900\s*(xtx|xt|gre))/i;
+    
+    // Check for match against regex and then check for presence in valid GPU labels
+    function getValidGpuLabels(userInput) {
+        return userInput.split(", ").map(gpu => {
+            let match = gpu.match(gpuRegex);
+            if (match) {
+                let normalizedGpu = match[0].trim(); 
+                for (let label of validGpuLabels) {
+                    if (label.toLowerCase().includes(normalizedGpu.toLowerCase())) {
+                        return label;
+                    }
+                }
+            }
+            return null; 
+        }).filter(Boolean);
+    }
+    
+    let selectedGpus = getValidGpuLabels(parsedIssueBody.gpu);
+    
     
     // Add "ROCm" to the version and check against set of valid labels
     let rocmVersions = parsedIssueBody.rocmVersions.split(", ").map(v => {
