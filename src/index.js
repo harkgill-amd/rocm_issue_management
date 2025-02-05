@@ -68,7 +68,9 @@ async function run(){
         }).filter(Boolean);
     }
     
-    let selectedGpus = getValidGpuLabels(parsedIssueBody.gpu.split(", ").map(v => v.trim()));
+    let trimGPU = parsedIssueBody.gpu.split(", ").map(v => v.trim());
+    console.log("Trim GPU" + trimGPU);
+    let selectedGpus = getValidGpuLabels(trimGPU);
     
     
     // Add "ROCm" to the version and check against set of valid labels
