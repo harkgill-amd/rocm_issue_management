@@ -39,16 +39,26 @@ async function run(){
     let parsedIssueBody = extractInfoFromIssueBody(body)
     
 
-    let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => {
-        return v.trim()
-    })
-
+    const validRocmLabels = new Set([
+        "ROCm 6.0.0", "ROCm 6.0.2", "ROCm 6.1.0", "ROCm 6.1.1", "ROCm 6.1.2", "ROCm 6.2.0", "ROCm 6.2.1",
+        "ROCm 6.2.2", "ROCm 6.2.4", "ROCm 6.3.0", "ROCm 6.3.1", "ROCm 6.3.2"
+    ]);
+    
+    let selectedGpus = parsedIssueBody.gpu.split(", ").map(v => v.trim());
+    
+    // Add "ROCm" to the version and check against set of valid labels
     let rocmVersions = parsedIssueBody.rocmVersions.split(", ").map(v => {
-        return v.trim()
-    })
+        v = v.trim();
+        let formattedVersion = v.startsWith("ROCm") ? v : `ROCm ${v}`;
+        return validRocmLabels.has(formattedVersion) ? formattedVersion : null;
+    }).filter(Boolean);
 
-    let labels = [... selectedGpus, ...rocmVersions]
+    let labels = [... selectedGpus, ...rocmVersions, ...doc]
 
+
+
+
+    
     // Adding labels to the issue using the GPU and ROCm versions
     try{
         await octokit.rest.issues.addLabels({owner: orgName, repo: repoName, issue_number:issueNum, labels:labels})
